@@ -333,7 +333,8 @@ export const MapPoint: React.FC<MapPointProps> = ({
       {/* Orbit rings for planets - skip for custom images */}
       {point.type === "planet" &&
         point.id !== "mundo-gelado" &&
-        point.id !== "planeta-limite" && (
+        point.id !== "planeta-limite" &&
+        point.id !== "terra-nova" && (
           <motion.div
             className="absolute inset-0 rounded-full border border-white/20 -z-10"
             style={{
