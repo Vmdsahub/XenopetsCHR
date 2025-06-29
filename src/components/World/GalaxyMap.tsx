@@ -1134,7 +1134,7 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
     }, 500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [galaxyPoints]);
 
   // Salva posição - simples
   useEffect(() => {
