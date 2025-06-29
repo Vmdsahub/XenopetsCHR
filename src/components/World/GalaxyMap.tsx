@@ -41,7 +41,7 @@ const wrap = (value: number, min: number, max: number): number => {
   return result;
 };
 
-// Gera pontos distribuídos naturalmente pelo mapa
+// Gera pontos reunidos ao redor do centro do mapa
 const generateGalaxyPoints = () => {
   return [
     {
@@ -51,8 +51,8 @@ const generateGalaxyPoints = () => {
       description: "Um planeta verdejante cheio de vida",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F50c9b6d67a104a3493aa90dd1b8ec545?format=webp&width=800",
-      x: 25,
-      y: 70,
+      x: 40,
+      y: 45,
     },
     {
       id: "estacao-omega",
@@ -61,8 +61,8 @@ const generateGalaxyPoints = () => {
       description: "Centro comercial da galáxia",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F33bc3a2c9ab640e8a3a4e31a127b186c?format=webp&width=800",
-      x: 75,
-      y: 60,
+      x: 60,
+      y: 40,
     },
     {
       id: "nebulosa-crimson",
@@ -71,8 +71,8 @@ const generateGalaxyPoints = () => {
       description: "Uma nebulosa misteriosa com energia estranha",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F69aee9aae2844db097785996005e39f4?format=webp&width=800",
-      x: 60,
-      y: 80,
+      x: 65,
+      y: 55,
     },
     {
       id: "campo-asteroides",
@@ -81,8 +81,8 @@ const generateGalaxyPoints = () => {
       description: "Rico em recursos minerais raros",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2Fd72456f351f44914a7041ea650599fa5?format=webp&width=800",
-      x: 15,
-      y: 85,
+      x: 45,
+      y: 60,
     },
     {
       id: "mundo-gelado",
@@ -91,8 +91,8 @@ const generateGalaxyPoints = () => {
       description: "Planeta coberto de gelo eterno",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F7e4bf7fbfae64dec9a1f6cc4cf45cae2?format=webp&width=800",
-      x: 85,
-      y: 75,
+      x: 55,
+      y: 50,
     },
     {
       id: "estacao-borda",
@@ -101,8 +101,8 @@ const generateGalaxyPoints = () => {
       description: "Estação nos limites do espaço",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2Fddc08062fa4747258d35e5b4220283d2?format=webp&width=800",
-      x: 40,
-      y: 90,
+      x: 50,
+      y: 58,
     },
     {
       id: "planeta-limite",
@@ -111,8 +111,8 @@ const generateGalaxyPoints = () => {
       description: "Mundo nos confins da galáxia",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F32e8fdb02b8747e2905c284b102c06f1?format=webp&width=800",
-      x: 70,
-      y: 95,
+      x: 35,
+      y: 52,
     },
   ];
 };
