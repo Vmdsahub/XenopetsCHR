@@ -196,7 +196,7 @@ export const MapPoint: React.FC<MapPointProps> = ({
 
       {/* Main point */}
       <motion.div
-        className={`relative flex items-center justify-center shadow-lg backdrop-blur-sm overflow-hidden ${
+        className={
           point.id === "mundo-gelado" ||
           point.id === "planeta-limite" ||
           point.id === "estacao-borda" ||
@@ -204,9 +204,9 @@ export const MapPoint: React.FC<MapPointProps> = ({
           point.id === "nebulosa-crimson" ||
           point.id === "estacao-omega" ||
           point.id === "terra-nova"
-            ? "w-60 h-60 rounded-full"
-            : "w-6 h-6 rounded-full"
-        }`}
+            ? "relative"
+            : "relative flex items-center justify-center w-6 h-6 rounded-full shadow-lg backdrop-blur-sm overflow-hidden"
+        }
         style={{
           background:
             point.id === "mundo-gelado" ||
@@ -218,7 +218,16 @@ export const MapPoint: React.FC<MapPointProps> = ({
             point.id === "terra-nova"
               ? "transparent"
               : `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
-          border: "none",
+          border:
+            point.id === "mundo-gelado" ||
+            point.id === "planeta-limite" ||
+            point.id === "estacao-borda" ||
+            point.id === "campo-asteroides" ||
+            point.id === "nebulosa-crimson" ||
+            point.id === "estacao-omega" ||
+            point.id === "terra-nova"
+              ? "none"
+              : `1px solid ${colors.primary}40`,
         }}
         animate={{
           boxShadow:
