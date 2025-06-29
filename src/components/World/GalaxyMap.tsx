@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from "react";
 import { motion, useMotionValue, useTransform, PanInfo } from "framer-motion";
 import { MapPoint } from "./MapPoint";
+import { PlayerShip } from "./PlayerShip";
 import { playBarrierCollisionSound } from "../../utils/soundManager";
 
 interface MapPointData {
@@ -189,45 +190,6 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
     [isNearPoint, onPointClick],
   );
 
-  // Touch event handlers for mobile support
-  const handleTouchStart = useCallback((event: React.TouchEvent) => {
-    event.preventDefault();
-    handleDragStart();
-  }, [handleDragStart]);
-
-  const handleTouchMove = useCallback((event: React.TouchEvent) => {
-    event.preventDefault();
-    if (!isDragging || !constraintsRef.current) return;
-
-    const touch = event.touches[0];
-    const rect = constraintsRef.current.getBoundingClientRect();
-    const x = ((touch.clientX - rect.left) / rect.width) * 100;
-    const y = ((touch.clientY - rect.top) / rect.height) * 100;
-
-    const constrainedPosition = checkCollisionWithBoundaries(x, y);
-    
-    shipX.set(constrainedPosition.x);
-    shipY.set(constrainedPosition.y);
-    setShipPosition(constrainedPosition);
-  }, [isDragging, checkCollisionWithBoundaries, shipX, shipY]);
-
-  const handleTouchEnd = useCallback((event: React.TouchEvent) => {
-    event.preventDefault();
-    setIsDragging(false);
-    setIsDecelerating(true);
-
-    // Check if near any point for interaction
-    const nearbyPoint = GALAXY_POINTS.find((point) => isNearPoint(point));
-    if (nearbyPoint) {
-      onPointClick(nearbyPoint.id, nearbyPoint);
-    }
-
-    // Deceleration effect
-    setTimeout(() => {
-      setIsDecelerating(false);
-    }, 500);
-  }, [isNearPoint, onPointClick]);
-
   return (
     <div className="relative w-full h-96 overflow-hidden">
       {/* Galaxy Background */}
@@ -245,9 +207,6 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
           backgroundRepeat: "repeat",
           backgroundSize: "200px 100px",
         }}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
       >
         {/* Animated stars */}
         {[...Array(50)].map((_, i) => (
@@ -305,75 +264,12 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
           onDragEnd={handleDragEnd}
           whileDrag={{ scale: 1.1 }}
         >
-          <motion.div
-            className="relative w-10 h-10 z-20"
-            style={{ rotate: shipRotation }}
-            animate={{
-              scale: isDragging ? 1.1 : 1,
-              y: isDragging ? [0, -0.5, 0, 0.5, 0] : [0, -2, 0, 2, 0],
-              x: isDragging ? [0, 0.5, 0, -0.5, 0] : [0, 1.5, 0, -1.5, 0],
-            }}
-            transition={{
-              scale: { type: "spring", stiffness: 300, damping: 30 },
-              y: {
-                duration: isDragging ? 0.15 : 2.2,
-                repeat: Infinity,
-                ease: isDragging ? "linear" : "easeInOut",
-              },
-              x: {
-                duration: isDragging ? 0.12 : 2.8,
-                repeat: Infinity,
-                ease: isDragging ? "linear" : "easeInOut",
-              },
-            }}
-          >
-            <motion.img
-              src="https://cdn.builder.io/api/v1/image/assets%2F4d288afc418148aaaf0f73eedbc53e2b%2F01991177d397420f9f7b55d6a6283724?format=webp&width=800"
-              alt="Spaceship"
-              className="w-full h-full object-contain drop-shadow-lg"
-            />
-
-            {/* Ship trails - apenas quando arrastando */}
-            {isDragging && (
-              <>
-                <motion.div
-                  className="absolute w-0.5 h-6 bg-gradient-to-t from-transparent to-blue-400 transform -translate-x-1/2"
-                  style={{
-                    top: "calc(100% - 12px)",
-                    left: "calc(50% - 1px)",
-                    zIndex: -1,
-                  }}
-                  animate={{
-                    opacity: [0.3, 0.8, 0.3],
-                    scaleY: [0.5, 1, 0.5],
-                  }}
-                  transition={{
-                    duration: 0.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                />
-                <motion.div
-                  className="absolute w-0.5 h-5 bg-gradient-to-t from-transparent to-cyan-300 transform -translate-x-1/2"
-                  style={{
-                    top: "calc(100% - 8px)",
-                    left: "calc(50% - 1px)",
-                    zIndex: -1,
-                  }}
-                  animate={{
-                    opacity: [0.2, 0.6, 0.2],
-                    scaleY: [0.3, 1, 0.3],
-                  }}
-                  transition={{
-                    duration: 0.3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.1,
-                  }}
-                />
-              </>
-            )}
-          </motion.div>
+          <PlayerShip
+            rotation={shipRotation}
+            isNearPoint={GALAXY_POINTS.some((point) => isNearPoint(point))}
+            isDragging={isDragging}
+            isDecelerating={isDecelerating}
+          />
         </motion.div>
 
         {/* Navigation Instructions */}
