@@ -249,6 +249,9 @@ export const MapPoint: React.FC<MapPointProps> = ({
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F7e4bf7fbfae64dec9a1f6cc4cf45cae2?format=webp&width=800"
             alt="Mundo Gelado"
             className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
             animate={{
               y: [0, -8, 0],
               x: [0, 3, 0],
@@ -266,6 +269,9 @@ export const MapPoint: React.FC<MapPointProps> = ({
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F32e8fdb02b8847e2905c284b102c06f1?format=webp&width=800"
             alt="Planeta Limite"
             className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
             animate={{
               y: [0, -5, 0],
               x: [0, -4, 0],
@@ -283,6 +289,9 @@ export const MapPoint: React.FC<MapPointProps> = ({
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2Fddc08062fa4847258d35e5b4220283d2?format=webp&width=800"
             alt="Estação da Borda"
             className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
             animate={{
               y: [0, -6, 0],
               x: [0, 2, 0],
@@ -300,6 +309,9 @@ export const MapPoint: React.FC<MapPointProps> = ({
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2Fd72456f351f44914a7041ea650599fa5?format=webp&width=800"
             alt="Campo de Asteroides"
             className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
             animate={{
               y: [0, -7, 0],
               x: [0, -3, 0],
@@ -317,6 +329,9 @@ export const MapPoint: React.FC<MapPointProps> = ({
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F69aee9aae2844db097785996005e39f4?format=webp&width=800"
             alt="Nebulosa Crimson"
             className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
             animate={{
               y: [0, -9, 0],
               x: [0, 4, 0],
@@ -334,6 +349,9 @@ export const MapPoint: React.FC<MapPointProps> = ({
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F33bc3a2c9ab640e8a3a4e31a127b186c?format=webp&width=800"
             alt="Estação Omega"
             className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
             animate={{
               y: [0, -4, 0],
               x: [0, -2, 0],
@@ -351,6 +369,9 @@ export const MapPoint: React.FC<MapPointProps> = ({
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F50c9b6d67a104a3493aa90dd1b8ec545?format=webp&width=800"
             alt="Terra Nova"
             className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
             animate={{
               y: [0, -6, 0],
               x: [0, 3, 0],
