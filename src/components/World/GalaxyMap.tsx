@@ -1216,7 +1216,7 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
+    if (!isDragging || draggingPoint) return;
 
     // Para o timer de auto-piloto se o mouse se mover
     if (isHolding) {
