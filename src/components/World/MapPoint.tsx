@@ -161,18 +161,7 @@ export const MapPoint: React.FC<MapPointProps> = ({
       animate={{
         opacity: 1,
         scale: 1,
-        filter:
-          point.id === "mundo-gelado" ||
-          point.id === "planeta-limite" ||
-          point.id === "estacao-borda" ||
-          point.id === "campo-asteroides" ||
-          point.id === "nebulosa-crimson" ||
-          point.id === "estacao-omega" ||
-          point.id === "terra-nova"
-            ? "none"
-            : isNearby
-              ? `drop-shadow(0 0 12px ${colors.glow})`
-              : `drop-shadow(0 0 6px ${colors.glow})`,
+        filter: "none",
       }}
       transition={{
         type: "spring",
@@ -207,7 +196,7 @@ export const MapPoint: React.FC<MapPointProps> = ({
 
       {/* Main point */}
       <motion.div
-        className={`relative flex items-center justify-center shadow-lg backdrop-blur-sm overflow-hidden ${
+        className={
           point.id === "mundo-gelado" ||
           point.id === "planeta-limite" ||
           point.id === "estacao-borda" ||
@@ -215,9 +204,9 @@ export const MapPoint: React.FC<MapPointProps> = ({
           point.id === "nebulosa-crimson" ||
           point.id === "estacao-omega" ||
           point.id === "terra-nova"
-            ? "w-60 h-60"
-            : "w-6 h-6 rounded-full"
-        }`}
+            ? "relative"
+            : "relative flex items-center justify-center w-6 h-6 rounded-full shadow-lg backdrop-blur-sm overflow-hidden"
+        }
         style={{
           background:
             point.id === "mundo-gelado" ||
@@ -241,52 +230,159 @@ export const MapPoint: React.FC<MapPointProps> = ({
               : `1px solid ${colors.primary}40`,
         }}
         animate={{
-          boxShadow: isNearby
-            ? `0 0 20px ${colors.glow}`
-            : `0 0 8px ${colors.glow}60`,
+          boxShadow:
+            point.id === "mundo-gelado" ||
+            point.id === "planeta-limite" ||
+            point.id === "estacao-borda" ||
+            point.id === "campo-asteroides" ||
+            point.id === "nebulosa-crimson" ||
+            point.id === "estacao-omega" ||
+            point.id === "terra-nova"
+              ? "none"
+              : isNearby
+                ? `0 0 20px ${colors.glow}`
+                : `0 0 8px ${colors.glow}60`,
         }}
       >
         {point.id === "mundo-gelado" ? (
-          <img
+          <motion.img
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F7e4bf7fbfae64dec9a1f6cc4cf45cae2?format=webp&width=800"
             alt="Mundo Gelado"
-            className="w-full h-full object-cover"
+            className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
+            animate={{
+              y: [0, -8, 0],
+              x: [0, 3, 0],
+              rotate: [0, 1, 0, -1, 0],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0,
+            }}
           />
         ) : point.id === "planeta-limite" ? (
-          <img
+          <motion.img
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F32e8fdb02b8847e2905c284b102c06f1?format=webp&width=800"
             alt="Planeta Limite"
-            className="w-full h-full object-contain"
+            className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
+            animate={{
+              y: [0, -5, 0],
+              x: [0, -4, 0],
+              rotate: [0, -0.8, 0, 0.8, 0],
+            }}
+            transition={{
+              duration: 7.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1.2,
+            }}
           />
         ) : point.id === "estacao-borda" ? (
-          <img
+          <motion.img
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2Fddc08062fa4847258d35e5b4220283d2?format=webp&width=800"
             alt="Estação da Borda"
-            className="w-full h-full object-contain"
+            className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
+            animate={{
+              y: [0, -6, 0],
+              x: [0, 2, 0],
+              rotate: [0, 1.2, 0, -0.6, 0],
+            }}
+            transition={{
+              duration: 5.8,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 2.1,
+            }}
           />
         ) : point.id === "campo-asteroides" ? (
-          <img
+          <motion.img
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2Fd72456f351f44914a7041ea650599fa5?format=webp&width=800"
             alt="Campo de Asteroides"
-            className="w-full h-full object-contain"
+            className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
+            animate={{
+              y: [0, -7, 0],
+              x: [0, -3, 0],
+              rotate: [0, -1.5, 0, 1, 0],
+            }}
+            transition={{
+              duration: 6.7,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.8,
+            }}
           />
         ) : point.id === "nebulosa-crimson" ? (
-          <img
+          <motion.img
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F69aee9aae2844db097785996005e39f4?format=webp&width=800"
             alt="Nebulosa Crimson"
-            className="w-full h-full object-contain"
+            className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
+            animate={{
+              y: [0, -9, 0],
+              x: [0, 4, 0],
+              rotate: [0, 0.9, 0, -1.2, 0],
+            }}
+            transition={{
+              duration: 8.2,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1.8,
+            }}
           />
         ) : point.id === "estacao-omega" ? (
-          <img
+          <motion.img
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F33bc3a2c9ab640e8a3a4e31a127b186c?format=webp&width=800"
             alt="Estação Omega"
-            className="w-full h-full object-contain"
+            className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
+            animate={{
+              y: [0, -4, 0],
+              x: [0, -2, 0],
+              rotate: [0, -0.7, 0, 0.9, 0],
+            }}
+            transition={{
+              duration: 5.5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 2.7,
+            }}
           />
         ) : point.id === "terra-nova" ? (
-          <img
+          <motion.img
             src="https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F50c9b6d67a104a3493aa90dd1b8ec545?format=webp&width=800"
             alt="Terra Nova"
-            className="w-full h-full object-contain"
+            className="w-32 h-32 object-cover"
+            style={{
+              filter: "drop-shadow(0 0 1px rgba(255, 255, 255, 0.2))",
+            }}
+            animate={{
+              y: [0, -6, 0],
+              x: [0, 3, 0],
+              rotate: [0, 1.1, 0, -0.8, 0],
+            }}
+            transition={{
+              duration: 7,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1.5,
+            }}
           />
         ) : (
           <Icon size={14} className="text-white drop-shadow-sm" />
@@ -335,7 +431,8 @@ export const MapPoint: React.FC<MapPointProps> = ({
       {/* Orbit rings for planets - skip for custom images */}
       {point.type === "planet" &&
         point.id !== "mundo-gelado" &&
-        point.id !== "planeta-limite" && (
+        point.id !== "planeta-limite" &&
+        point.id !== "terra-nova" && (
           <motion.div
             className="absolute inset-0 rounded-full border border-white/20 -z-10"
             style={{
