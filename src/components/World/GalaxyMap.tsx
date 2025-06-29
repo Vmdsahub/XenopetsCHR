@@ -688,7 +688,7 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
     ctx.globalAlpha = 1;
   }, [mapX, mapY, updateShootingStars, renderShootingStars]);
 
-  // Sistema de animação otimizado para Canvas
+  // Sistema de animaç��o otimizado para Canvas
   useEffect(() => {
     const animate = () => {
       renderStarsCanvas();
@@ -1121,7 +1121,7 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
       let closest: string | null = null;
       let closestDistance = Infinity;
 
-      GALAXY_POINTS.forEach((point) => {
+      galaxyPoints.forEach((point) => {
         const distance = getToroidalDistance(shipPosRef.current, point);
 
         if (distance < threshold && distance < closestDistance) {
