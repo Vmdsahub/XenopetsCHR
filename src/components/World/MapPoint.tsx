@@ -215,7 +215,7 @@ export const MapPoint: React.FC<MapPointProps> = ({
           point.id === "nebulosa-crimson" ||
           point.id === "estacao-omega" ||
           point.id === "terra-nova"
-            ? "w-60 h-60"
+            ? "w-60 h-60 rounded-full"
             : "w-6 h-6 rounded-full"
         }`}
         style={{
@@ -229,7 +229,10 @@ export const MapPoint: React.FC<MapPointProps> = ({
             point.id === "terra-nova"
               ? "transparent"
               : `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`,
-          border:
+          border: "none",
+        }}
+        animate={{
+          boxShadow:
             point.id === "mundo-gelado" ||
             point.id === "planeta-limite" ||
             point.id === "estacao-borda" ||
@@ -238,12 +241,9 @@ export const MapPoint: React.FC<MapPointProps> = ({
             point.id === "estacao-omega" ||
             point.id === "terra-nova"
               ? "none"
-              : `1px solid ${colors.primary}40`,
-        }}
-        animate={{
-          boxShadow: isNearby
-            ? `0 0 20px ${colors.glow}`
-            : `0 0 8px ${colors.glow}60`,
+              : isNearby
+                ? `0 0 20px ${colors.glow}`
+                : `0 0 8px ${colors.glow}60`,
         }}
       >
         {point.id === "mundo-gelado" ? (
