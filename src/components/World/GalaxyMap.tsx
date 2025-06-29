@@ -1294,7 +1294,7 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
       mapY.set(newMapY);
     }
 
-    // Rotação responsiva com interpolação suave
+    // Rotaç��o responsiva com interpolação suave
     if (Math.sqrt(deltaX * deltaX + deltaY * deltaY) > 1) {
       setHasMoved(true);
       const newAngle = Math.atan2(-deltaY, -deltaX) * (180 / Math.PI) + 90;
@@ -1556,16 +1556,28 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
   // Renderiza pontos de forma otimizada
   const renderPoints = () => {
     return galaxyPoints.map((point) => (
-      <div key={point.id} className="pointer-events-auto relative z-30">
+      <div
+        key={point.id}
+        className={`pointer-events-auto relative z-30 ${
+          draggingPoint === point.id ? "cursor-grabbing" : "cursor-grab"
+        }`}
+        onMouseDown={(e) => handlePointMouseDown(e, point.id)}
+      >
         <MapPoint
           point={point}
           isNearby={nearbyPoint === point.id}
           onClick={() => handlePointClick(point.id)}
-          isDragging={isDragging}
+          isDragging={isDragging || draggingPoint === point.id}
           style={{
             left: `${point.x}%`,
             top: `${point.y}%`,
             willChange: "transform", // otimização GPU
+            opacity: draggingPoint === point.id ? 0.8 : 1,
+            transform: draggingPoint === point.id ? "scale(1.1)" : "scale(1)",
+            transition:
+              draggingPoint === point.id
+                ? "none"
+                : "transform 0.2s ease, opacity 0.2s ease",
           }}
         />
       </div>
