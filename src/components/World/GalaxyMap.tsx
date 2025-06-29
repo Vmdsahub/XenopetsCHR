@@ -1194,6 +1194,11 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
       return;
     }
 
+    if (draggingPoint) {
+      // Se estiver arrastando um ponto, não move o mapa
+      return;
+    }
+
     setIsDragging(true);
     setHasMoved(false);
     lastMousePos.current = { x: e.clientX, y: e.clientY };
