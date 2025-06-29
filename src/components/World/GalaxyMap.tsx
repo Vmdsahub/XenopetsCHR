@@ -123,7 +123,7 @@ const generateCircularPoints = () => {
   });
 };
 
-const GALAXY_POINTS: MapPointData[] = generateLinearPoints();
+const GALAXY_POINTS: MapPointData[] = generateCircularPoints();
 
 export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
   const [shipPosition, setShipPosition] = useState(() => {
