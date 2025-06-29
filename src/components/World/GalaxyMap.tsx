@@ -117,9 +117,13 @@ const generateGalaxyPoints = () => {
   ];
 };
 
-const GALAXY_POINTS: MapPointData[] = generateGalaxyPoints();
-
 export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
+  // Estados para posições dos pontos (permite arrastar)
+  const [galaxyPoints, setGalaxyPoints] = useState<MapPointData[]>(() => {
+    const saved = localStorage.getItem("xenopets-galaxy-points");
+    return saved ? JSON.parse(saved) : generateGalaxyPoints();
+  });
+
   const [shipPosition, setShipPosition] = useState(() => {
     const saved = localStorage.getItem("xenopets-player-data");
     const data = saved
@@ -131,6 +135,8 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
 
   const [nearbyPoint, setNearbyPoint] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [draggingPoint, setDraggingPoint] = useState<string | null>(null);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isColliding, setIsColliding] = useState(false);
   const [collisionNotification, setCollisionNotification] = useState<{
     show: boolean;
