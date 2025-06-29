@@ -1312,10 +1312,15 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
   };
 
   const handleMouseUp = () => {
-    setIsDragging(false);
-    setIsHolding(false);
-    setHoldProgress(0);
-    setHoldStartTime(null);
+    if (draggingPoint) {
+      // Se estiver arrastando um ponto, não processa mouse up do mapa
+      return;
+    }
+
+    if (!hasMoved) {
+      setVelocity({ x: 0, y: 0 });
+      setIsDecelerating(false);
+    }
 
     // Se não moveu (apenas clique), para completamente
     if (!hasMoved) {
