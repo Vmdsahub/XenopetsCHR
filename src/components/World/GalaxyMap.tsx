@@ -41,9 +41,9 @@ const wrap = (value: number, min: number, max: number): number => {
   return result;
 };
 
-// Gera pontos em linha horizontal para facilitar cliques
-const generateLinearPoints = () => {
-  const points = [
+// Gera pontos reunidos ao redor do centro do mapa
+const generateGalaxyPoints = () => {
+  return [
     {
       id: "terra-nova",
       name: "Terra Nova",
@@ -51,6 +51,8 @@ const generateLinearPoints = () => {
       description: "Um planeta verdejante cheio de vida",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F50c9b6d67a104a3493aa90dd1b8ec545?format=webp&width=800",
+      x: 40,
+      y: 45,
     },
     {
       id: "estacao-omega",
@@ -59,6 +61,8 @@ const generateLinearPoints = () => {
       description: "Centro comercial da galáxia",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F33bc3a2c9ab640e8a3a4e31a127b186c?format=webp&width=800",
+      x: 60,
+      y: 40,
     },
     {
       id: "nebulosa-crimson",
@@ -67,6 +71,8 @@ const generateLinearPoints = () => {
       description: "Uma nebulosa misteriosa com energia estranha",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F69aee9aae2844db097785996005e39f4?format=webp&width=800",
+      x: 65,
+      y: 55,
     },
     {
       id: "campo-asteroides",
@@ -75,6 +81,8 @@ const generateLinearPoints = () => {
       description: "Rico em recursos minerais raros",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2Fd72456f351f44914a7041ea650599fa5?format=webp&width=800",
+      x: 45,
+      y: 60,
     },
     {
       id: "mundo-gelado",
@@ -83,6 +91,8 @@ const generateLinearPoints = () => {
       description: "Planeta coberto de gelo eterno",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F7e4bf7fbfae64dec9a1f6cc4cf45cae2?format=webp&width=800",
+      x: 55,
+      y: 50,
     },
     {
       id: "estacao-borda",
@@ -90,7 +100,9 @@ const generateLinearPoints = () => {
       type: "station" as const,
       description: "Estação nos limites do espaço",
       image:
-        "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2Fddc08062fa4847258d35e5b4220283d2?format=webp&width=800",
+        "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2Fddc08062fa4747258d35e5b4220283d2?format=webp&width=800",
+      x: 50,
+      y: 58,
     },
     {
       id: "planeta-limite",
@@ -98,28 +110,20 @@ const generateLinearPoints = () => {
       type: "planet" as const,
       description: "Mundo nos confins da galáxia",
       image:
-        "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F32e8fdb02b8847e2905c284b102c06f1?format=webp&width=800",
+        "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F32e8fdb02b8747e2905c284b102c06f1?format=webp&width=800",
+      x: 35,
+      y: 52,
     },
   ];
-
-  // Arranja pontos em linha horizontal
-  const centerY = 50; // Centro vertical
-  const spacing = 80 / (points.length - 1); // Espaçamento entre 10% e 90%
-
-  return points.map((point, index) => {
-    const x = 10 + index * spacing; // Distribui de 10% a 90%
-
-    return {
-      ...point,
-      x: x,
-      y: centerY,
-    };
-  });
 };
 
-const GALAXY_POINTS: MapPointData[] = generateLinearPoints();
-
 export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
+  // Estados para posições dos pontos (permite arrastar)
+  const [galaxyPoints, setGalaxyPoints] = useState<MapPointData[]>(() => {
+    const saved = localStorage.getItem("xenopets-galaxy-points");
+    return saved ? JSON.parse(saved) : generateGalaxyPoints();
+  });
+
   const [shipPosition, setShipPosition] = useState(() => {
     const saved = localStorage.getItem("xenopets-player-data");
     const data = saved
@@ -131,6 +135,8 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
 
   const [nearbyPoint, setNearbyPoint] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [draggingPoint, setDraggingPoint] = useState<string | null>(null);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isColliding, setIsColliding] = useState(false);
   const [collisionNotification, setCollisionNotification] = useState<{
     show: boolean;
@@ -682,7 +688,7 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
     ctx.globalAlpha = 1;
   }, [mapX, mapY, updateShootingStars, renderShootingStars]);
 
-  // Sistema de animação otimizado para Canvas
+  // Sistema de animaç��o otimizado para Canvas
   useEffect(() => {
     const animate = () => {
       renderStarsCanvas();
@@ -1115,7 +1121,7 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
       let closest: string | null = null;
       let closestDistance = Infinity;
 
-      GALAXY_POINTS.forEach((point) => {
+      galaxyPoints.forEach((point) => {
         const distance = getToroidalDistance(shipPosRef.current, point);
 
         if (distance < threshold && distance < closestDistance) {
@@ -1128,7 +1134,7 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
     }, 500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [galaxyPoints]);
 
   // Salva posição - simples
   useEffect(() => {
@@ -1188,6 +1194,11 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
       return;
     }
 
+    if (draggingPoint) {
+      // Se estiver arrastando um ponto, não move o mapa
+      return;
+    }
+
     setIsDragging(true);
     setHasMoved(false);
     lastMousePos.current = { x: e.clientX, y: e.clientY };
@@ -1205,7 +1216,7 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
+    if (!isDragging || draggingPoint) return;
 
     // Para o timer de auto-piloto se o mouse se mover
     if (isHolding) {
@@ -1288,7 +1299,7 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
       mapY.set(newMapY);
     }
 
-    // Rotação responsiva com interpolação suave
+    // Rotaç��o responsiva com interpolação suave
     if (Math.sqrt(deltaX * deltaX + deltaY * deltaY) > 1) {
       setHasMoved(true);
       const newAngle = Math.atan2(-deltaY, -deltaX) * (180 / Math.PI) + 90;
@@ -1301,10 +1312,15 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
   };
 
   const handleMouseUp = () => {
-    setIsDragging(false);
-    setIsHolding(false);
-    setHoldProgress(0);
-    setHoldStartTime(null);
+    if (draggingPoint) {
+      // Se estiver arrastando um ponto, não processa mouse up do mapa
+      return;
+    }
+
+    if (!hasMoved) {
+      setVelocity({ x: 0, y: 0 });
+      setIsDecelerating(false);
+    }
 
     // Se não moveu (apenas clique), para completamente
     if (!hasMoved) {
@@ -1471,25 +1487,109 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
   };
 
   const handlePointClick = (pointId: string) => {
-    const point = GALAXY_POINTS.find((p) => p.id === pointId);
+    if (draggingPoint) return; // Não clica se estiver arrastando
+    const point = galaxyPoints.find((p) => p.id === pointId);
     if (point) {
       onPointClick(pointId, point);
     }
   };
 
+  // Funções para arrastar pontos
+  const handlePointMouseDown = (e: React.MouseEvent, pointId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const point = galaxyPoints.find((p) => p.id === pointId);
+    if (!point) return;
+
+    const pointScreenX = rect.left + (point.x / 100) * rect.width;
+    const pointScreenY = rect.top + (point.y / 100) * rect.height;
+
+    setDragOffset({
+      x: e.clientX - pointScreenX,
+      y: e.clientY - pointScreenY,
+    });
+    setDraggingPoint(pointId);
+    setIsDragging(true); // Previne movimento do mapa
+  };
+
+  const handlePointMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!draggingPoint || !containerRef.current) return;
+
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = ((e.clientX - dragOffset.x - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - dragOffset.y - rect.top) / rect.height) * 100;
+
+      // Limita dentro dos bounds do mapa
+      const clampedX = Math.max(0, Math.min(100, x));
+      const clampedY = Math.max(0, Math.min(100, y));
+
+      setGalaxyPoints((prev) =>
+        prev.map((point) =>
+          point.id === draggingPoint
+            ? { ...point, x: clampedX, y: clampedY }
+            : point,
+        ),
+      );
+    },
+    [draggingPoint, dragOffset],
+  );
+
+  const handlePointMouseUp = useCallback(() => {
+    if (draggingPoint) {
+      // Salva as posições atualizadas no localStorage
+      localStorage.setItem(
+        "xenopets-galaxy-points",
+        JSON.stringify(galaxyPoints),
+      );
+      setDraggingPoint(null);
+      setDragOffset({ x: 0, y: 0 });
+      setIsDragging(false); // Reabilita movimento do mapa
+    }
+  }, [draggingPoint, galaxyPoints]);
+
+  // Event listeners para drag dos pontos
+  useEffect(() => {
+    if (draggingPoint) {
+      document.addEventListener("mousemove", handlePointMouseMove);
+      document.addEventListener("mouseup", handlePointMouseUp);
+
+      return () => {
+        document.removeEventListener("mousemove", handlePointMouseMove);
+        document.removeEventListener("mouseup", handlePointMouseUp);
+      };
+    }
+  }, [draggingPoint, handlePointMouseMove, handlePointMouseUp]);
+
   // Renderiza pontos de forma otimizada
   const renderPoints = () => {
-    return GALAXY_POINTS.map((point) => (
-      <div key={point.id} className="pointer-events-auto relative z-30">
+    return galaxyPoints.map((point) => (
+      <div
+        key={point.id}
+        className={`pointer-events-auto relative z-30 ${
+          draggingPoint === point.id ? "cursor-grabbing" : "cursor-grab"
+        }`}
+        onMouseDown={(e) => handlePointMouseDown(e, point.id)}
+      >
         <MapPoint
           point={point}
           isNearby={nearbyPoint === point.id}
           onClick={() => handlePointClick(point.id)}
-          isDragging={isDragging}
+          isDragging={isDragging || draggingPoint === point.id}
           style={{
             left: `${point.x}%`,
             top: `${point.y}%`,
             willChange: "transform", // otimização GPU
+            opacity: draggingPoint === point.id ? 0.8 : 1,
+            transform: draggingPoint === point.id ? "scale(1.1)" : "scale(1)",
+            transition:
+              draggingPoint === point.id
+                ? "none"
+                : "transform 0.2s ease, opacity 0.2s ease",
           }}
         />
       </div>
