@@ -1538,6 +1538,7 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
       );
       setDraggingPoint(null);
       setDragOffset({ x: 0, y: 0 });
+      setIsDragging(false); // Reabilita movimento do mapa
     }
   }, [draggingPoint, galaxyPoints]);
 
