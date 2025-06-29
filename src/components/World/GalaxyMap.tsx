@@ -41,9 +41,9 @@ const wrap = (value: number, min: number, max: number): number => {
   return result;
 };
 
-// Gera pontos em círculo ao redor do centro
-const generateCircularPoints = () => {
-  const points = [
+// Gera pontos distribuídos naturalmente pelo mapa
+const generateGalaxyPoints = () => {
+  return [
     {
       id: "terra-nova",
       name: "Terra Nova",
@@ -51,6 +51,8 @@ const generateCircularPoints = () => {
       description: "Um planeta verdejante cheio de vida",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F50c9b6d67a104a3493aa90dd1b8ec545?format=webp&width=800",
+      x: 25,
+      y: 70,
     },
     {
       id: "estacao-omega",
@@ -59,6 +61,8 @@ const generateCircularPoints = () => {
       description: "Centro comercial da galáxia",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F33bc3a2c9ab640e8a3a4e31a127b186c?format=webp&width=800",
+      x: 75,
+      y: 60,
     },
     {
       id: "nebulosa-crimson",
@@ -67,6 +71,8 @@ const generateCircularPoints = () => {
       description: "Uma nebulosa misteriosa com energia estranha",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F69aee9aae2844db097785996005e39f4?format=webp&width=800",
+      x: 60,
+      y: 80,
     },
     {
       id: "campo-asteroides",
@@ -75,6 +81,8 @@ const generateCircularPoints = () => {
       description: "Rico em recursos minerais raros",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2Fd72456f351f44914a7041ea650599fa5?format=webp&width=800",
+      x: 15,
+      y: 85,
     },
     {
       id: "mundo-gelado",
@@ -83,6 +91,8 @@ const generateCircularPoints = () => {
       description: "Planeta coberto de gelo eterno",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F7e4bf7fbfae64dec9a1f6cc4cf45cae2?format=webp&width=800",
+      x: 85,
+      y: 75,
     },
     {
       id: "estacao-borda",
@@ -90,7 +100,9 @@ const generateCircularPoints = () => {
       type: "station" as const,
       description: "Estação nos limites do espaço",
       image:
-        "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2Fddc08062fa4847258d35e5b4220283d2?format=webp&width=800",
+        "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2Fddc08062fa4747258d35e5b4220283d2?format=webp&width=800",
+      x: 40,
+      y: 90,
     },
     {
       id: "planeta-limite",
@@ -99,28 +111,10 @@ const generateCircularPoints = () => {
       description: "Mundo nos confins da galáxia",
       image:
         "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F32e8fdb02b8747e2905c284b102c06f1?format=webp&width=800",
+      x: 70,
+      y: 95,
     },
   ];
-
-  // Configuração do círculo
-  const centerX = 50; // Centro horizontal (50%)
-  const centerY = 80; // Centro vertical bem abaixo (80%)
-  const radius = 15; // Raio menor para teste (15% da tela)
-  const angleStep = (2 * Math.PI) / points.length; // Ângulo entre cada ponto
-
-  return points.map((point, index) => {
-    // Calcula a posição de cada ponto no círculo
-    // Começa no topo (ângulo -π/2) e vai no sentido horário
-    const angle = -Math.PI / 2 + index * angleStep;
-    const x = centerX + radius * Math.cos(angle);
-    const y = centerY + radius * Math.sin(angle);
-
-    return {
-      ...point,
-      x: x,
-      y: y,
-    };
-  });
 };
 
 const GALAXY_POINTS: MapPointData[] = generateCircularPoints();
