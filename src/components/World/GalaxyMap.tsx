@@ -41,8 +41,8 @@ const wrap = (value: number, min: number, max: number): number => {
   return result;
 };
 
-// Gera pontos em linha horizontal para facilitar cliques
-const generateLinearPoints = () => {
+// Gera pontos em círculo ao redor do centro
+const generateCircularPoints = () => {
   const points = [
     {
       id: "terra-nova",
@@ -98,21 +98,27 @@ const generateLinearPoints = () => {
       type: "planet" as const,
       description: "Mundo nos confins da galáxia",
       image:
-        "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F32e8fdb02b8847e2905c284b102c06f1?format=webp&width=800",
+        "https://cdn.builder.io/api/v1/image/assets%2Fab1d9d92bc174226b835128749a95e68%2F32e8fdb02b8747e2905c284b102c06f1?format=webp&width=800",
     },
   ];
 
-  // Arranja pontos em linha horizontal
-  const centerY = 50; // Centro vertical
-  const spacing = 80 / (points.length - 1); // Espaçamento entre 10% e 90%
+  // Configuração do círculo
+  const centerX = 50; // Centro horizontal (50%)
+  const centerY = 50; // Centro vertical (50%)
+  const radius = 25; // Raio do círculo (25% da tela)
+  const angleStep = (2 * Math.PI) / points.length; // Ângulo entre cada ponto
 
   return points.map((point, index) => {
-    const x = 10 + index * spacing; // Distribui de 10% a 90%
+    // Calcula a posição de cada ponto no círculo
+    // Começa no topo (ângulo -π/2) e vai no sentido horário
+    const angle = -Math.PI / 2 + index * angleStep;
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
 
     return {
       ...point,
       x: x,
-      y: centerY,
+      y: y,
     };
   });
 };
