@@ -104,8 +104,8 @@ const generateCircularPoints = () => {
 
   // Configuração do círculo
   const centerX = 50; // Centro horizontal (50%)
-  const centerY = 70; // Centro vertical movido para baixo (70%)
-  const radius = 25; // Raio do círculo (25% da tela)
+  const centerY = 80; // Centro vertical bem abaixo (80%)
+  const radius = 15; // Raio menor para teste (15% da tela)
   const angleStep = (2 * Math.PI) / points.length; // Ângulo entre cada ponto
 
   return points.map((point, index) => {
