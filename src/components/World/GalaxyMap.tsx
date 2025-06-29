@@ -1477,15 +1477,85 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
   };
 
   const handlePointClick = (pointId: string) => {
-    const point = GALAXY_POINTS.find((p) => p.id === pointId);
+    if (draggingPoint) return; // Não clica se estiver arrastando
+    const point = galaxyPoints.find((p) => p.id === pointId);
     if (point) {
       onPointClick(pointId, point);
     }
   };
 
+  // Funções para arrastar pontos
+  const handlePointMouseDown = (e: React.MouseEvent, pointId: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const rect = containerRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const point = galaxyPoints.find((p) => p.id === pointId);
+    if (!point) return;
+
+    const pointScreenX = rect.left + (point.x / 100) * rect.width;
+    const pointScreenY = rect.top + (point.y / 100) * rect.height;
+
+    setDragOffset({
+      x: e.clientX - pointScreenX,
+      y: e.clientY - pointScreenY,
+    });
+    setDraggingPoint(pointId);
+  };
+
+  const handlePointMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!draggingPoint || !containerRef.current) return;
+
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = ((e.clientX - dragOffset.x - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - dragOffset.y - rect.top) / rect.height) * 100;
+
+      // Limita dentro dos bounds do mapa
+      const clampedX = Math.max(0, Math.min(100, x));
+      const clampedY = Math.max(0, Math.min(100, y));
+
+      setGalaxyPoints((prev) =>
+        prev.map((point) =>
+          point.id === draggingPoint
+            ? { ...point, x: clampedX, y: clampedY }
+            : point,
+        ),
+      );
+    },
+    [draggingPoint, dragOffset],
+  );
+
+  const handlePointMouseUp = useCallback(() => {
+    if (draggingPoint) {
+      // Salva as posições atualizadas no localStorage
+      localStorage.setItem(
+        "xenopets-galaxy-points",
+        JSON.stringify(galaxyPoints),
+      );
+      setDraggingPoint(null);
+      setDragOffset({ x: 0, y: 0 });
+    }
+  }, [draggingPoint, galaxyPoints]);
+
+  // Event listeners para drag dos pontos
+  useEffect(() => {
+    if (draggingPoint) {
+      document.addEventListener("mousemove", handlePointMouseMove);
+      document.addEventListener("mouseup", handlePointMouseUp);
+
+      return () => {
+        document.removeEventListener("mousemove", handlePointMouseMove);
+        document.removeEventListener("mouseup", handlePointMouseUp);
+      };
+    }
+  }, [draggingPoint, handlePointMouseMove, handlePointMouseUp]);
+
   // Renderiza pontos de forma otimizada
   const renderPoints = () => {
-    return GALAXY_POINTS.map((point) => (
+    return galaxyPoints.map((point) => (
       <div key={point.id} className="pointer-events-auto relative z-30">
         <MapPoint
           point={point}
