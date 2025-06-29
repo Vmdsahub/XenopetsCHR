@@ -1528,10 +1528,6 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
       const clampedX = Math.max(0, Math.min(100, x));
       const clampedY = Math.max(0, Math.min(100, y));
 
-      console.log(
-        `Dragging ${draggingPoint}: x=${clampedX.toFixed(1)}, y=${clampedY.toFixed(1)}`,
-      );
-
       setGalaxyPoints((prev) =>
         prev.map((point) =>
           point.id === draggingPoint
