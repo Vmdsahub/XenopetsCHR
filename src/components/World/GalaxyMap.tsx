@@ -1503,6 +1503,7 @@ export const GalaxyMap: React.FC<GalaxyMapProps> = ({ onPointClick }) => {
       y: e.clientY - pointScreenY,
     });
     setDraggingPoint(pointId);
+    setIsDragging(true); // Previne movimento do mapa
   };
 
   const handlePointMouseMove = useCallback(
