@@ -115,10 +115,6 @@ const generateCircularPoints = () => {
     const x = centerX + radius * Math.cos(angle);
     const y = centerY + radius * Math.sin(angle);
 
-    console.log(
-      `Point ${point.id}: angle=${angle.toFixed(2)}, x=${x.toFixed(1)}, y=${y.toFixed(1)}`,
-    );
-
     return {
       ...point,
       x: x,
